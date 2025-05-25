@@ -24,7 +24,7 @@ func (s *Server) Start(ctx context.Context, wg *sync.WaitGroup) error {
 
 	srv := &http.Server{
 		Addr:         ":8080",
-		Handler:      router.NewRouter(), // Not sure why we got another layer here...
+		Handler:      router.NewRouter(),  
 		WriteTimeout: 600 * time.Second,
 		ReadTimeout:  600 * time.Second,
 	}
@@ -32,8 +32,7 @@ func (s *Server) Start(ctx context.Context, wg *sync.WaitGroup) error {
 	go func() {
 		slog.Info("Starting server on port :80")
 		if err := srv.ListenAndServe(); err != nil {
-			if err == http.ErrServerClosed {
-				// cannot panic, because this probably is an intentional close
+			if err == http.ErrServerClosed { 
 				slog.Info("application server stopped", "error", err)
 			} else {
 				slog.Error("application server error occurred", "error", err)
